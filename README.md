@@ -57,7 +57,8 @@ docker network create springmysql-net
 ```
 4. Run the MySQL container in the network:
 ```
-docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=manounou -e MYSQL_DATABASE=ecomerce -e MYSQL_USER=stevy -e MYSQL_PASSWORD=manounou -d mysql:5.7```
+docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=manounou -e MYSQL_DATABASE=ecomerce -e MYSQL_USER=stevy -e MYSQL_PASSWORD=manounou -d mysql:5.7
+```
 5. Verify MySQL container logs:
 ```
 docker logs mysqldb
