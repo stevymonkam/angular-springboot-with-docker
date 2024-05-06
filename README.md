@@ -63,7 +63,7 @@ docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=root 
 ```
 docker logs mysqldb
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202002.png)
 
 6. Verify if the database `employeedb` is created:
 ```
@@ -86,7 +86,7 @@ docker ps
 ```
 docker logs spring-boot-app
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202425.png)
 
 # push in docker hub 
 
@@ -101,7 +101,7 @@ push image
 ```
 docker push stevymonkam/backend1:1.0
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200456.png)
 
 # Using docker-compose
 Without going through these many steps we can do the same thing with one command docker-compose.
@@ -151,4 +151,4 @@ docker-compose up
 ```
 
 ![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
-![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200200.png)
