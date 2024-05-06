@@ -47,7 +47,7 @@ docker pull mysql:5.7
 
 2. Create a Docker image for the Spring Boot app:
 ```
-docker build -t spring-boot-app .
+docker build -t backend1 .
 ```
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20175618.png)
 
@@ -57,21 +57,20 @@ docker network create springmysql-net
 ```
 4. Run the MySQL container in the network:
 ```
-docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=employeedb -d mysql:5.7
-```
+docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=manounou -e MYSQL_DATABASE=ecomerce -e MYSQL_USER=stevy -e MYSQL_PASSWORD=manounou -d mysql:5.7```
 5. Verify MySQL container logs:
 ```
 docker logs mysqldb
 ```
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202002.png)
 
-6. Verify if the database `employeedb` is created:
+6. Verify if the database `ecomerce` is created:
 ```
 docker exec -it mysqldb mysql -uroot -proot -e "show databases;"
 ```
 7. Run the Spring Boot container in the same network:
 ```
-docker run --name spring-boot-app --network springmysql-net -p 8080:8080 -d spring-boot-app
+docker run --name spring-boot-app --network springmysql-net -p 8080:8080 -d backend1:latest
 ```
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
 
