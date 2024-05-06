@@ -1,0 +1,22 @@
+version: "3"
+services:
+  front-container:
+    image: stevymonkam/front5:1.0
+    ports:
+      - "83:80"
+    networks:
+      - springmysql-net
+    container_name: front-container
+    volumes:
+      - front-data:/usr/share/nginx/html
+
+networks:
+  springmysql-net:
+    driver: bridge
+
+volumes:
+  front-data:
+    driver: local
+
+
+
