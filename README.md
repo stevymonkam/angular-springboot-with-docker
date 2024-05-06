@@ -18,13 +18,13 @@ The application facilitates CRUD operations for an employee-management system, i
 
 #### Project Structure
 
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20170819.png)
 
 #### Application Configuration
 
 To configure the database, refer to the `application.properties` file.
 
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20170538.png)
 
 #### Building the Application Jar
 
@@ -32,6 +32,9 @@ To build the Spring Boot application jar file:
 
 1. Right-click on `pom.xml` → Run As → Maven build.
 2. The generated jar file (`backend-0.0.1-SNAPSHOT.jar`) will be in the `target` folder.
+
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20171127.png)
+
 
 ## Dockerization Process
 
@@ -46,7 +49,7 @@ docker pull mysql:5.7
 ```
 docker build -t spring-boot-app .
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20175618.png)
 
 3. Create a Docker network:
 ```
@@ -70,14 +73,14 @@ docker exec -it mysqldb mysql -uroot -proot -e "show databases;"
 ```
 docker run --name spring-boot-app --network springmysql-net -p 8080:8080 -d spring-boot-app
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
 
 
 8. Verify containers are running correctly:
 ```
 docker ps
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20180303.png)
 
 9. Check Spring Boot container logs:
 ```
@@ -98,6 +101,7 @@ push image
 ```
 docker push stevymonkam/backend1:1.0
 ```
+![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
 
 # Using docker-compose
 Without going through these many steps we can do the same thing with one command docker-compose.
@@ -145,6 +149,6 @@ Then Open the command terminal inside the project folder and do the following co
 ```
 docker-compose up
 ```
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
 
 ![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
