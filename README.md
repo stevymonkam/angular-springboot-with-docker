@@ -86,7 +86,7 @@ docker ps
 ```
 docker logs spring-boot-app
 ```
-![suggested-architecture](https://github.com/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202425.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202425.png)
 
 # push in docker hub 
 
@@ -149,6 +149,6 @@ Then Open the command terminal inside the project folder and do the following co
 ```
 docker-compose up
 ```
-
-![suggested-architecture](https://github.com/stevymonkam/wordpress-with-kubernetes/blob/main/img/Screenshot%202024-04-26%20125644.png)
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200200.png)
+
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
