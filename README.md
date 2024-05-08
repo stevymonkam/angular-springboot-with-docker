@@ -171,6 +171,7 @@ docker-compose up
      
       Make sure your Angular application works properly locally.
       Build a production version of your application using the Angular CLI command:
+
        ```
        ng build --prod.
        ```
@@ -195,10 +196,10 @@ docker-compose up
     COPY --from=build /app/dist/test1 /usr/share/nginx/html
   ```
 
-    ## Build the Docker image
+ ## Build the Docker image
 
     Run the following command to build your Docker image:
-   
+
        ```
        docker build -tcontratti-image .
        ```

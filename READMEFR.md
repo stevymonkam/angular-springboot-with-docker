@@ -168,10 +168,11 @@ docker-composer
 
 # Dockerizing Angular app
 
-   ## Préparer votre application Angular 
-     
+   ## Préparer votre application Angular
+    
      Assurez-vous que votre application Angular fonctionne correctement localement.
      Générez une version de production de votre application à l'aide de la commande Angular CLI : 
+
       ```
       ng build --prod.
       ```
