@@ -261,9 +261,13 @@ Apres deployement du front end et back end notre application è enfin prete et p
   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
 
 
+
+
 # CI CD app angular avec jenkins :
 
+
 automatison notre deployement avec jenkins 
+
 
 ```yaml
 pipeline {
@@ -357,8 +361,12 @@ pipeline {
 }
 ```
 
+
+
 Cette pipeline Jenkins est configuré pour construire, tester et déployer votre application Angular à la fois sur des environnements de staging et de production sur la plateforme Heroku. C'est une configuration complète pour automatiser le processus de déploiemen
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
-  
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
+
+
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20163837.png)
+
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20163741.png)
