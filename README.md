@@ -179,15 +179,13 @@ docker-compose up
    Exécutez la commande suivante pour construire votre image Docker :
    
       ```
-      docker build -t front5 .
+      docker build -t contratti-image .
       ```
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
-
 
   ## Exécuter le conteneur Docker :
 
       ```
-      docker run --network springmysql-net --name front-container -p 86:80 front5:latest
+      docker run --network springmysql-net --name front-container -p 86:80 contratti-image:latest
       ```
   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20145559.png)
 
@@ -202,9 +200,9 @@ docker tag id_image  username/imageName:tag
 ```
 push image
 ```
-docker push stevymonkam/front5:1.0
+docker push stevymonkam/contratti-image:1.0
 ```
-![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154754.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20160111.png)
 
 
 ## ##Docker-compose :
@@ -215,7 +213,7 @@ utiliser ce docker-compose pour obtenir le meme resultat:
    version: "3"
 services:
   front-container:
-    image: stevymonkam/front5:1.0
+    image: stevymonkam/contratti-image:1.0
     ports:
       - "83:80"
     networks:
@@ -244,8 +242,9 @@ de l'host sur la porte 8080 du container back-end comme ci-desous :
 
 Apres deployement du front end et back end notre application è enfin prete et peut etre consomer via url : http://192.168.56.14:86
 
+  
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154341.png)
 
   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154341.png)
 
