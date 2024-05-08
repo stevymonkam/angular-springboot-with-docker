@@ -1,10 +1,10 @@
 # angular-springboot-with-docker
 
-### Dans ce project je dois resoudre les besoin suivant : 
+### Dans ce project je dois resoudre les besoin suivant 
 
-      - deployer une app angular avec docker et ercire le docker-compose pour codifier mon infrastructure deployer
-      - deployer une app java springboot avec docker installer et configurer la bd mysql et la faire communiquer avec le back end ercire le  docker-compose pour codifier mon infrastructure deployer
-      - automatiser le deployement de l'app angular avec jenkins ecrire une pipeline complete et le deployer dans le cloud provider hiruku
+ 1) deployer une app angular avec docker et ercire le docker-compose pour codifier mon infrastructure deployer
+ 2) deployer une app java springboot avec docker installer et configurer la bd mysql et la faire communiquer avec le back end ercire le      docker-compose pour codifier mon infrastructure deployer
+ 3) automatiser le deployement de l'app angular avec jenkins ecrire une pipeline complete et le deployer dans le cloud provider hiruku
 
 
 Link front end : https://github.com/stevymonkam/contratti_deploy
