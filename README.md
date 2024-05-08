@@ -204,7 +204,7 @@ push image
 ```
 docker push stevymonkam/front5:1.0
 ```
-![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200456.png)
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154754.png)
 
 
 ## ##Docker-compose :
@@ -246,3 +246,6 @@ Apres deployement du front end et back end notre application è enfin prete et p
 
 
   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
+
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154341.png)
+
