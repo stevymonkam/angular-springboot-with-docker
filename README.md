@@ -2,9 +2,9 @@
 
 ### Dans ce project je dois resoudre les besoin suivant 
 
- 1) deployer une app angular avec docker et ercire le docker-compose pour codifier mon infrastructure deployer
- 2) deployer une app java springboot avec docker installer et configurer la bd mysql et la faire communiquer avec le back end ercire le      docker-compose pour codifier mon infrastructure deployer
- 3) automatiser le deployement de l'app angular avec jenkins ecrire une pipeline complete et le deployer dans le cloud provider hiruku
+1) deploy an Angular app with docker and use docker-compose to code my deploy infrastructure
+2) deploy a springboot java app with docker install and configure the mysql database and make it communicate with the back end use docker-compose to codify my deploy infrastructure
+3) automate the deployment of the Angular app with Jenkins, write a complete pipeline and deploy it in the cloud provider heroku
 
 
 Link front end : https://github.com/stevymonkam/contratti_deploy
@@ -164,59 +164,60 @@ docker-compose up
 
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
 
+
 # Dockerizing Angular app
 
-   ## Préparer votre application Angular 
+    ## Prepare your Angular application
      
-     Assurez-vous que votre application Angular fonctionne correctement localement.
-     Générez une version de production de votre application à l'aide de la commande Angular CLI : 
-      ```
-      ng build --prod.
-      ```
+      Make sure your Angular application works properly locally.
+      Build a production version of your application using the Angular CLI command:
+       ```
+       ng build --prod.
+       ```
 
-   ## Créer un fichier Dockerfile :
+    ## Create a Dockerfile:
 
-    Créez un fichier nommé Dockerfile à la racine de votre projet Angular.
-    Ce fichier contiendra les instructions pour Docker sur la manière de construire votre conteneur
+     Create a file named Dockerfile in the root of your Angular project.
+     This file will contain instructions for Docker on how to build your container
 
- ```yaml
-   FROM node:20.11.0-alpine as build
-   WORKDIR /app
+  ```yaml
+    FROM node:20.11.0-alpine as build
+    WORKDIR /app
 
-   RUN npm install -g @angular/cli
+    RUN npm install -g @angular/cli
 
-   COPY ./package.json .
-   RUN npm install --force
-   COPY . .
-   RUN ng build
+    COPY ./package.json .
+    RUN npm install --force
+    COPY . .
+    RUN ngbuild
 
-   FROM nginx as runtime
-   COPY --from=build /app/dist/test1 /usr/share/nginx/html
- ```
+    FROM nginx as runtime
+    COPY --from=build /app/dist/test1 /usr/share/nginx/html
+  ```
 
-   ## Construire l'image Docker 
+    ## Build the Docker image
 
-   Exécutez la commande suivante pour construire votre image Docker :
+    Run the following command to build your Docker image:
    
-      ```
-      docker build -t contratti-image .
-      ```
+       ```
+       docker build -tcontratti-image .
+       ```
 
-  ## Exécuter le conteneur Docker :
+   ## Run the Docker container:
 
-      ```
-      docker run --network springmysql-net --name front-container -p 86:80 contratti-image:latest
-      ```
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20145559.png)
+       ```
+       docker run --network springmysql-net --name front-container -p 86:80contrati-image:latest
+       ```
+   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20145559.png)
 
-# push in docker hub 
+# push into docker hub
 
 ```
 docker login
 ```
 ### change image name
 ```
-docker tag id_image  username/imageName:tag
+docker tag id_image username/imageName:tag
 ```
 push image
 ```
@@ -225,155 +226,154 @@ docker push stevymonkam/contratti-image:1.0
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20160111.png)
 
 
-## ##Docker-compose :
+## ##Docker-compose:
 
-utiliser ce docker-compose pour obtenir le meme resultat:
+use this docker-compose to get the same result:
 
 ```yaml
-   version: "3"
+    version: "3"
 services:
-  front-container:
-    image: stevymonkam/contratti-image:1.0
-    ports:
-      - "83:80"
-    networks:
-      - springmysql-net
-    container_name: front-container
-    volumes:
-      - front-data:/usr/share/nginx/html
-    detach: true  # Déplacer cette ligne à l'intérieur de la définition du service
+   front-container:
+     image: stevymonkam/contratti-image:1.0
+     ports:
+       - "83:80"
+     networks:
+       - springmysql-net
+     container_name: front-container
+     volumes:
+       - front-data:/usr/share/nginx/html
+     detach: true # Move this line inside the service definition
 
 volumes:
-  front-data:
-    driver: local
+   front-data:
+     driver: local
 
 
 ```
 
-## Mettre en relation le front-end et le back-end :
+## Connect the front-end and the back-end:
 
-modifier le fichier config de son app angular et faire pointer l'adress ip 
-de l'host sur la porte 8080 du container back-end comme ci-desous :
+modify the config file of your Angular app and point the ip address
+of the host on the 8080 door of the back-end container as below:
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144755.png)
+   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144755.png)
 
 
-## Consomation de l'app :
+## App consumption:
 
-Apres deployement du front end et back end notre application è enfin prete et peut etre consomer via url : http://192.168.56.14:86
+After deployment of the front end and back end our application is finally ready and can be consumed via url: http://192.168.56.14:86
 
   
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154341.png)
+   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20154341.png)
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
-
-
+   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
 
 
-# CI CD app angular avec jenkins :
 
 
-automatison notre deployement avec jenkins 
+# CI CD angular app with jenkins:
 
+
+automating our deployment with jenkins
 
 ```yaml
 pipeline {
-     environment {
-       IMAGE_NAME = "contratti"
-       IMAGE_TAG = "latest"
-       STAGING = "contratti-staging"
-       PRODUCTION = "contratti-production"
-     }
-     agent none
-     stages {
-         stage('Build image') {
+      environment {
+        IMAGE_NAME = "contratti"
+        IMAGE_TAG = "latest"
+        STAGING = “contratti-staging”
+        PRODUCTION = “contractti-production”
+      }
+      agent none
+      internships {
+          stage('Build image') {
+              agent any
+              steps {
+                 script {
+                   sh 'docker build -t contractti/$IMAGE_NAME:$IMAGE_TAG .'
+                 }
+              }
+         }
+         stage('Run container based on built image') {
              agent any
              steps {
                 script {
-                  sh 'docker build -t contratti/$IMAGE_NAME:$IMAGE_TAG .'
+                  sh'''
+                     docker run --name $IMAGE_NAME -d -p 86:80 -e PORT=80 contractti/$IMAGE_NAME:$IMAGE_TAG
+                     sleep 5
+                  '''
                 }
              }
         }
-        stage('Run container based on builded image') {
+        stage('Test image') {
             agent any
             steps {
                script {
-                 sh '''
-                    docker run --name $IMAGE_NAME -d -p 86:80 -e PORT=80 contratti/$IMAGE_NAME:$IMAGE_TAG
-                    sleep 5
+                 sh'''
+                    curl http://localhost | grep -q "contratti"
                  '''
                }
             }
        }
-       stage('Test image') {
+       stage('Clean Container') {
            agent any
            steps {
               script {
-                sh '''
-                   curl http://localhost | grep -q "contratti"
+                sh'''
+                  docker stop $IMAGE_NAME
+                  docker rm $IMAGE_NAME
                 '''
               }
            }
       }
-      stage('Clean Container') {
-          agent any
-          steps {
-             script {
-               sh '''
-                 docker stop $IMAGE_NAME
-                 docker rm $IMAGE_NAME
-               '''
+      stage('Push image into staging and deploy it') {
+        when {
+               expression { GIT_BRANCH == 'origin/main' }
              }
-          }
-     }
-     stage('Push image in staging and deploy it') {
-       when {
-              expression { GIT_BRANCH == 'origin/main' }
-            }
-      agent any
-      environment {
-          HEROKU_API_KEY = credentials('heroku_api_key')
-      }  
-      steps {
-          script {
-            sh '''
-              heroku container:login
-              heroku create $STAGING || echo "project already exist"
-              heroku container:push -a $STAGING web
-              heroku container:release -a $STAGING web
-            '''
-          }
-        }
-     }
-     stage('Push image in production and deploy it') {
-       when {
-              expression { GIT_BRANCH == 'origin/main' }
-            }
-      agent any
-      environment {
-          HEROKU_API_KEY = credentials('heroku_api_key')
-      }  
-      steps {
-          script {
-            sh '''
-              heroku container:login
-              heroku create $PRODUCTION || echo "project already exist"
-              heroku container:push -a $PRODUCTION web
-              heroku container:release -a $PRODUCTION web
-            '''
-          }
-        }
-     }
-  }
+       agent any
+       environment {
+           HEROKU_API_KEY = credentials('heroku_api_key')
+       }
+       steps {
+           script {
+             sh'''
+               heroku container:login
+               heroku create $STAGING || echo "project already exists"
+               heroku container:push -a $STAGING web
+               heroku container:release -a $STAGING web
+             '''
+           }
+         }
+      }
+      stage('Push image into production and deploy it') {
+        when {
+               expression { GIT_BRANCH == 'origin/main' }
+             }
+       agent any
+       environment {
+           HEROKU_API_KEY = credentials('heroku_api_key')
+       }
+       steps {
+           script {
+             sh'''
+               heroku container:login
+               heroku create $PRODUCTION || echo "project already exists"
+               heroku container:push -a $PRODUCTION web
+               heroku container:release -a $PRODUCTION web
+             '''
+           }
+         }
+      }
+   }
 }
 ```
 
 
 
-Cette pipeline Jenkins est configuré pour construire, tester et déployer votre application Angular à la fois sur des environnements de staging et de production sur la plateforme Heroku. C'est une configuration complète pour automatiser le processus de déploiemen
+This Jenkins pipeline is configured to build, test and deploy your Angular application to both staging and production environments on the Heroku platform. It is a complete setup to automate the deployment process
 
 
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20163837.png)
+   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20163837.png)
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20163741.png)
+   ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20163741.png)
