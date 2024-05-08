@@ -167,7 +167,7 @@ docker-compose up
 
 # Dockerizing Angular app
 
-    ## Prepare your Angular application
+## Prepare your Angular application
      
       Make sure your Angular application works properly locally.
       Build a production version of your application using the Angular CLI command:
@@ -175,7 +175,7 @@ docker-compose up
        ng build --prod.
        ```
 
-    ## Create a Dockerfile:
+## Create a Dockerfile:
 
      Create a file named Dockerfile in the root of your Angular project.
      This file will contain instructions for Docker on how to build your container
@@ -226,7 +226,7 @@ docker push stevymonkam/contratti-image:1.0
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20160111.png)
 
 
-## ##Docker-compose:
+### Docker-compose:
 
 use this docker-compose to get the same result:
 
