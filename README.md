@@ -156,3 +156,41 @@ docker-compose up
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200200.png)
 
 ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+
+# Dockerizing Angular app
+
+   ## Préparer votre application Angular 
+     
+     Assurez-vous que votre application Angular fonctionne correctement localement.
+     Générez une version de production de votre application à l'aide de la commande Angular CLI : 
+      ```
+      ng build --prod.
+      ```
+
+   ## Créer un fichier Dockerfile :
+
+    Créez un fichier nommé Dockerfile à la racine de votre projet Angular.
+    Ce fichier contiendra les instructions pour Docker sur la manière de construire votre conteneur
+
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+
+   ## Construire l'image Docker 
+
+   Exécutez la commande suivante pour construire votre image Docker :
+   
+      ```
+      docker build -t front5 .
+      ```
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+
+
+  ## Exécuter le conteneur Docker :
+
+      ```
+      docker run --network springmysql-net --name front-container -p 83:80 front5:latest
+      ```
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+
+
+
+
