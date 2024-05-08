@@ -172,7 +172,20 @@ docker-compose up
     Créez un fichier nommé Dockerfile à la racine de votre projet Angular.
     Ce fichier contiendra les instructions pour Docker sur la manière de construire votre conteneur
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144436.png)
+ ```yaml
+   FROM node:20.11.0-alpine as build
+   WORKDIR /app
+
+   RUN npm install -g @angular/cli
+
+   COPY ./package.json .
+   RUN npm install --force
+   COPY . .
+   RUN ng build
+
+   FROM nginx as runtime
+   COPY --from=build /app/dist/test1 /usr/share/nginx/html
+ ```
 
    ## Construire l'image Docker 
 
