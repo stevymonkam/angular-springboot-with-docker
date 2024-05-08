@@ -23,21 +23,21 @@ LinkedIn : https://www.linkedin.com/in/stevy-monkam-naktakwen-a84299181/
 
 Ce guide explique deux méthodes pour dockeriser une application Spring Boot avec une base de données MySQL : utiliser un réseau Docker et utiliser Docker-compose.
 
-###Description de l'application
+### Description de l'application
 
 L'application facilite les opérations CRUD pour un système de gestion des employés, y compris des fonctionnalités telles que l'ajout, l'obtention et la mise à jour d'employés.
 
-#### Structure du projet
+### Structure du projet
 
 ![architecture-suggérée](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20170819.png)
 
-#### Configuration des applications
+### Configuration des applications
 
 Pour configurer la base de données, reportez-vous au fichier `application.properties`.
 
 ![architecture-suggérée](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20170538.png)
 
-#### Construire le pot d'application
+### Construire le pot d'application
 
 Pour créer le fichier jar de l'application Spring Boot :
 
@@ -64,7 +64,7 @@ docker build -t backend1 .
 
 3. Créez un réseau Docker :
 ```
-réseau Docker créer springmysql-net
+docker network create springmysql-net
 ```
 4. Exécutez le conteneur MySQL sur le réseau :
 ```
@@ -72,13 +72,13 @@ docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=manou
 ```
 5. Vérifiez les journaux du conteneur MySQL :
 ```
-Docker enregistre mysqldb
+docker logs mysqldb
 ```
 ![architecture-suggérée](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202002.png)
 
 6. Vérifiez si la base de données `ecommerce` est créée :
 ```
-docker exec -it mysqldb mysql -uroot -proot -e "afficher les bases de données ;"
+docker exec -it mysqldb mysql -uroot -proot -e "show databases;"
 ```
 7. Exécutez le conteneur Spring Boot sur le même réseau :
 ```
@@ -95,18 +95,19 @@ docker ps
 
 9. Vérifiez les journaux du conteneur Spring Boot :
 ```
-Docker journaux spring-boot-app
+docker logs spring-boot-app
 ```
 ![architecture-suggérée](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202425.png)
 
 # insérer le hub Docker
 
 ```
-connexion Docker
+ Docker login
 ```
 ### changer le nom de l'image
 ```
-balise docker id_image nom d'utilisateur/imageName:tag
+tag docker id_image nom d'utilisateur/imageName:tag 
+
 ```
 pousser l'image
 ```
@@ -115,50 +116,50 @@ docker push stevymonkam/backend1:1.0
 ![architecture-suggérée](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200456.png)
 
 # Utilisation de docker-compose
+
 Sans passer par ces nombreuses étapes, nous pouvons faire la même chose avec une seule commande docker-compose.
 
 Pour ce faire, nous devons créer un fichier docker-compose.yml qui comprend les éléments suivants.
 
 ```yaml
-     version : "3"
-     prestations de service:
-       serveur:
-         image : stevymonkam/backend1:1.0
-         ports :
-           - "8080:8080"
-         environnement:
-           - spring.datasource.url=jdbc:mysql://mysqldb:3306/ecomerce?useSSL=false
-         réseaux :
-           -springmysql-net
-         dépend de:
-           - mysqldb
+     version: "3"
+    services:
+      server:
+        image: stevymonkam/backend1:1.0
+        ports:
+          - "8080:8080"
+        environment:
+          - spring.datasource.url=jdbc:mysql://mysqldb:3306/ecomerce?useSSL=false
+        networks:
+          - springmysql-net
+        depends_on:
+          - mysqldb
     
-       mysqldb :
-         image : mysql : 5.7
-         réseaux :
-           -springmysql-net
-         environnement:
-           - MYSQL_ROOT_PASSWORD=manounou
-           - MYSQL_DATABASE=ecommerce
-           - MYSQL_USER=stevy
-           - MYSQL_PASSWORD=manounou
-         tomes :
-           - ./mysql-data:/var/lib/mysql # Montage du volume local dans le conteneur MySQL
+      mysqldb:
+        image: mysql:5.7
+        networks:
+          - springmysql-net
+        environment:
+          - MYSQL_ROOT_PASSWORD=manounou
+          - MYSQL_DATABASE=ecomerce
+          - MYSQL_USER=stevy
+          - MYSQL_PASSWORD=manounou
+        volumes:
+          - ./mysql-data:/var/lib/mysql  # Montage du volume local dans le conteneur MySQL
     
-     réseaux :
-       springmysql-net :
-
+    networks:
+      springmysql-net:
 ```
 
 # créer un répertoire
 
 ```
-mkdir données mysql
+mkdir mysql-data
 ```
 
 Ensuite, ouvrez le terminal de commande dans le dossier du projet et exécutez la commande suivante.
 ```
-docker-composer
+docker-composer up
 ```
 ![architecture-suggérée](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200200.png)
 
@@ -169,13 +170,11 @@ docker-composer
 # Dockerizing Angular app
 
    ## Préparer votre application Angular
-    
+
      Assurez-vous que votre application Angular fonctionne correctement localement.
      Générez une version de production de votre application à l'aide de la commande Angular CLI : 
 
-      ```
-      ng build --prod.
-      ```
+     
 
    ## Créer un fichier Dockerfile :
 

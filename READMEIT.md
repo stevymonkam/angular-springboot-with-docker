@@ -53,7 +53,7 @@ Per creare il file jar dell'applicazione Spring Boot:
 
 1. Estrai l'immagine MySQL da Docker Hub:
 ```
-finestra mobile pull mysql:5.7
+docker pull mysql:5.7
 ```
 
 2. Crea un'immagine Docker per l'applicazione Spring Boot:
@@ -64,7 +64,7 @@ docker build -t backend1 .
 
 3. Crea una rete Docker:
 ```
-La rete Docker crea springmysql-net
+docker network create springmysql-net
 ```
 4. Esegui il contenitore MySQL sulla rete:
 ```
@@ -72,37 +72,37 @@ docker run --name mysqldb --network springmysql-net -e MYSQL_ROOT_PASSWORD=manou
 ```
 5. Controlla i log del contenitore MySQL:
 ```
-Docker salva mysqldb
+docker logs mysqldb
 ```
 ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202002.png)
 
 6. Controlla se il database "ecommerce" è stato creato:
 ```
-docker exec -it mysqldb mysql -uroot -proot -e "mostra database;"
+docker exec -it mysqldb mysql -uroot -proot -e "show databases;"
 ```
 7. Eseguire il contenitore Spring Boot sulla stessa rete:
 ```
-docker esegui --name spring-boot-app --network springmysql-net -p 8080:8080 -d backend1:latest
+docker run --name spring-boot-app --network springmysql-net -p 8080:8080 -d backend1:latest
 ```
 ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
 
 
 8. Verificare che i contenitori funzionino correttamente:
 ```
-finestra mobile ps
+docker ps
 ```
 ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20180303.png)
 
 9. Controllare i log del contenitore Spring Boot:
 ```
-Docker registra l'app spring-boot
+docker logs spring-boot-app
 ```
 ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20202425.png)
 
 # inserisci l'hub Docker
 
 ```
-Connessione Docker
+ Docker login
 ```
 ### cambia il nome dell'immagine
 ```
@@ -121,45 +121,45 @@ Senza eseguire tutti questi passaggi, possiamo fare la stessa cosa con un singol
 Per fare ciò, dobbiamo creare un file docker-compose.yml che includa i seguenti elementi.
 
 ```yaml
-      versione: "3"
-      Servizi:
-        cameriere:
-          immagine: stevymonkam/backend1:1.0
-          porti:
-            - "8080:8080"
-          ambiente:
-            - spring.datasource.url=jdbc:mysql://mysqldb:3306/ecomerce?useSSL=false
-          reti:
-            -springmysql-net
-          dipende da:
-            -mysqldb
+     version: "3"
+    services:
+      server:
+        image: stevymonkam/backend1:1.0
+        ports:
+          - "8080:8080"
+        environment:
+          - spring.datasource.url=jdbc:mysql://mysqldb:3306/ecomerce?useSSL=false
+        networks:
+          - springmysql-net
+        depends_on:
+          - mysqldb
     
-        mysqldb:
-          immagine: mysql:5.7
-          reti:
-            -springmysql-net
-          ambiente:
-            - MYSQL_ROOT_PASSWORD=manounou
-            - MYSQL_DATABASE=e-commerce
-            -MYSQL_USER=stevy
-            - MYSQL_PASSWORD=manounou
-          volumi:
-            - ./mysql-data:/var/lib/mysql # Monta il volume locale nel contenitore MySQL
+      mysqldb:
+        image: mysql:5.7
+        networks:
+          - springmysql-net
+        environment:
+          - MYSQL_ROOT_PASSWORD=manounou
+          - MYSQL_DATABASE=ecomerce
+          - MYSQL_USER=stevy
+          - MYSQL_PASSWORD=manounou
+        volumes:
+          - ./mysql-data:/var/lib/mysql  # Montage du volume local dans le conteneur MySQL
     
-      reti:
-        springmysql-net:
+    networks:
+      springmysql-net:
 
 ```
 
 # crea una directory
 
 ```
-mkdir dati mysql
+mkdir mysql-data
 ```
 
 Successivamente, apri il terminale di comando nella cartella del progetto ed esegui il comando seguente.
 ```
-docker-compose
+docker-compose up
 ```
 ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200200.png)
 
@@ -169,36 +169,33 @@ docker-compose
 
 # Dockerizzazione dell'app Angular
 
-    ## Prepara la tua applicazione Angular
+## Prepara la tua applicazione Angular
     
       Assicurati che la tua applicazione Angular funzioni correttamente a livello locale.
       Crea una versione di produzione della tua applicazione utilizzando il comando Angular CLI:
 
-       ```
-       ng build --prod.
-       ```
 
-    ## Crea un Dockerfile:
+ ## Crea un Dockerfile:
 
      Crea un file denominato Dockerfile nella root del tuo progetto Angular.
      Questo file conterrà le istruzioni per Docker su come creare il tuo contenitore
 
   ```yaml
-    FROM nodo:20.11.0-alpine come build
-    DIR LAVORO /app
+FROM node:20.11.0-alpine as build
+WORKDIR /app
 
-    ESEGUI npm install -g @angular/cli
+RUN npm install -g @angular/cli
 
-    COPIA ./pacchetto.json .
-    ESEGUI npm install --force
-    COPIA . .
-    ESEGUI ngbuild
+COPY ./package.json .
+RUN npm install --force
+COPY . .
+RUN ng build
 
-    DA nginx come runtime
-    COPY --from=build /app/dist/test1 /usr/share/nginx/html
+FROM nginx as runtime
+COPY --from=build /app/dist/EcomerceFinal /usr/share/nginx/html
   ```
 
-    ## Costruisci l'immagine Docker
+ ## Costruisci l'immagine Docker
 
     Esegui il comando seguente per creare la tua immagine Docker:
    
@@ -209,48 +206,48 @@ docker-compose
    ## Esegui il contenitore Docker:
 
        ```
-       docker run --network springmysql-net --name front-container -p 86:80contrati-image:latest
+       docker run --network springmysql-net --name front-container -p 86:80 contrati-image:latest
        ```
    ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20145559.png)
 
-# spingere nell'hub della finestra mobile
+# push in docker hub 
 
 ```
-accesso alla finestra mobile
+docker login
 ```
-### cambia il nome dell'immagine
+### change image name
 ```
-tag docker id_immagine nomeutente/nomeimmagine:tag
+docker tag id_image  username/imageName:tag
 ```
-spingere l'immagine
+push image
+
 ```
 docker push stevymonkam/contratti-image:1.0
 ```
 ![architettura-suggerita](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20160111.png)
 
 
-## ##Docker-composizione:
+### Docker-compose:
 
 usa questo docker-compose per ottenere lo stesso risultato:
 
 ```yaml
-    versione: "3"
-Servizi:
-   contenitore anteriore:
-     immagine: stevymonkam/contratti-immagine:1.0
-     porti:
-       -"83:80"
-     reti:
+    version: "3"
+services:
+   front-container:
+     image: stevymonkam/contratti-image:1.0
+     ports:
+       - "83:80"
+     networks:
        - springmysql-net
-     nome_contenitore: contenitore-frontale
-     volumi:
+     container_name: front-container
+     volumes:
        - front-data:/usr/share/nginx/html
-     distacca: true # Sposta questa riga all'interno della definizione del servizio
+     detach: true # Move this line inside the service definition
 
-volumi:
-   dati frontali:
-     autista: locale
-
+volumes:
+   front-data:
+     driver: local
 
 ```
 
@@ -278,94 +275,94 @@ automatizzando la nostra distribuzione con Jenkins
 
 
 ```yaml
-tubatura {
-      ambiente {
-        IMAGE_NAME = "contratti"
-        IMAGE_TAG = "più recente"
-        STAGING = “contratti-staging”
-        PRODUZIONE = “produzione-contratti”
-      }
-      agente nessuno
-      tirocini {
-          stage('Crea immagine') {
-              agente qualsiasi
-              passi {
-                 copione {
-                   sh 'docker build -t contratti/$IMAGE_NAME:$IMAGE_TAG .'
-                 }
-              }
-         }
-         stage('Esegui il contenitore in base all'immagine creata') {
-             agente qualsiasi
-             passi {
-                copione {
-                  sh'''
-                     docker esegui --name $IMAGE_NAME -d -p 86:80 -e PORT=80 contractti/$IMAGE_NAME:$IMAGE_TAG
-                     dormire 5
-                  '''
+pipeline {
+     environment {
+       IMAGE_NAME = "contratti"
+       IMAGE_TAG = "latest"
+       STAGING = "contratti-staging"
+       PRODUCTION = "contratti-production"
+     }
+     agent none
+     stages {
+         stage('Build image') {
+             agent any
+             steps {
+                script {
+                  sh 'docker build -t contratti/$IMAGE_NAME:$IMAGE_TAG .'
                 }
              }
         }
-        stage('Immagine di prova') {
-            agente qualsiasi
-            passi {
-               copione {
-                 sh'''
-                    arricciare http://localhost | grep -q "contratti"
+        stage('Run container based on builded image') {
+            agent any
+            steps {
+               script {
+                 sh '''
+                    docker run --name $IMAGE_NAME -d -p 86:80 -e PORT=80 contratti/$IMAGE_NAME:$IMAGE_TAG
+                    sleep 5
                  '''
                }
             }
        }
-       stage('Pulisci contenitore') {
-           agente qualsiasi
-           passi {
-              copione {
-                sh'''
-                  fermata finestra mobile $IMAGE_NAME
-                  finestra mobile rm $IMAGE_NAME
+       stage('Test image') {
+           agent any
+           steps {
+              script {
+                sh '''
+                   curl http://localhost | grep -q "contratti"
                 '''
               }
            }
       }
-      stage('Inserisci l'immagine nello staging e distribuiscila') {
-        Quando {
-               espressione { GIT_BRANCH == 'origine/principale' }
+      stage('Clean Container') {
+          agent any
+          steps {
+             script {
+               sh '''
+                 docker stop $IMAGE_NAME
+                 docker rm $IMAGE_NAME
+               '''
              }
-       agente qualsiasi
-       ambiente {
-           HEROKU_API_KEY = credenziali('heroku_api_key')
-       }
-       passi {
-           copione {
-             sh'''
-               contenitore heroku: login
-               heroku crea $STAGING || echo "il progetto esiste già"
-               contenitore heroku:push -a $STAGING web
-               contenitore heroku:release -a $STAGING web
-             '''
-           }
-         }
-      }
-      stage('Inserisci l'immagine in produzione e distribuiscila') {
-        Quando {
-               espressione { GIT_BRANCH == 'origine/principale' }
-             }
-       agente qualsiasi
-       ambiente {
-           HEROKU_API_KEY = credenziali('heroku_api_key')
-       }
-       passi {
-           copione {
-             sh'''
-               contenitore heroku: login
-               heroku crea $PRODUZIONE || echo "il progetto esiste già"
-               contenitore heroku:push -a $PRODUZIONE web
-               contenitore heroku:release -a $PRODUZIONE web
-             '''
-           }
-         }
-      }
-   }
+          }
+     }
+     stage('Push image in staging and deploy it') {
+       when {
+              expression { GIT_BRANCH == 'origin/main' }
+            }
+      agent any
+      environment {
+          HEROKU_API_KEY = credentials('heroku_api_key')
+      }  
+      steps {
+          script {
+            sh '''
+              heroku container:login
+              heroku create $STAGING || echo "project already exist"
+              heroku container:push -a $STAGING web
+              heroku container:release -a $STAGING web
+            '''
+          }
+        }
+     }
+     stage('Push image in production and deploy it') {
+       when {
+              expression { GIT_BRANCH == 'origin/main' }
+            }
+      agent any
+      environment {
+          HEROKU_API_KEY = credentials('heroku_api_key')
+      }  
+      steps {
+          script {
+            sh '''
+              heroku container:login
+              heroku create $PRODUCTION || echo "project already exist"
+              heroku container:push -a $PRODUCTION web
+              heroku container:release -a $PRODUCTION web
+            '''
+          }
+        }
+     }
+  }
 }
 ```
 
