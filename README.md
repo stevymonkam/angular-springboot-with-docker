@@ -172,7 +172,7 @@ docker-compose up
     Créez un fichier nommé Dockerfile à la racine de votre projet Angular.
     Ce fichier contiendra les instructions pour Docker sur la manière de construire votre conteneur
 
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144436.png)
 
    ## Construire l'image Docker 
 
@@ -187,10 +187,62 @@ docker-compose up
   ## Exécuter le conteneur Docker :
 
       ```
-      docker run --network springmysql-net --name front-container -p 83:80 front5:latest
+      docker run --network springmysql-net --name front-container -p 86:80 front5:latest
       ```
-  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20192546.png)
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20145559.png)
+
+# push in docker hub 
+
+```
+docker login
+```
+### change image name
+```
+docker tag id_image  username/imageName:tag
+```
+push image
+```
+docker push stevymonkam/front5:1.0
+```
+![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-06%20200456.png)
 
 
+## ##Docker-compose :
+
+utiliser ce docker-compose pour obtenir le meme resultat:
+
+```yaml
+   version: "3"
+services:
+  front-container:
+    image: stevymonkam/front5:1.0
+    ports:
+      - "83:80"
+    networks:
+      - springmysql-net
+    container_name: front-container
+    volumes:
+      - front-data:/usr/share/nginx/html
+    detach: true  # Déplacer cette ligne à l'intérieur de la définition du service
+
+volumes:
+  front-data:
+    driver: local
 
 
+```
+
+## Mettre en relation le front-end et le back-end :
+
+modifier le fichier config de son app angular et faire pointer l'adress ip 
+de l'host sur la porte 8080 du container back-end comme ci-desous :
+
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144755.png)
+
+
+## Consomation de l'app :
+
+Apres deployement du front end et back end notre application è enfin prete et peut etre consomer via url : http://192.168.56.14:86
+
+
+  ![suggested-architecture](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/Screenshot%202024-05-08%20144934.png)
