@@ -1,6 +1,6 @@
 # angular-springboot-with-docker
 
-### Dans ce project je dois resoudre les besoin suivant 
+### In this project I have to solve the following needs
 
 1) deploy an Angular app with docker and use docker-compose to code my deploy infrastructure
 2) deploy a springboot java app with docker install and configure the mysql database and make it communicate with the back end use docker-compose to codify my deploy infrastructure
