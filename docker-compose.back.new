@@ -1,6 +1,6 @@
 services:
   server:
-    image: imageback2:latest
+    image: stevymonkam/imageback2:latest
     ports:
       - "8086:8086"
     environment:
