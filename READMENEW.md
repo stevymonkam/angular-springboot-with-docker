@@ -60,3 +60,18 @@
 </td>
 </tr>
 </table>
+
+
+
+<table>
+<tr>
+<td width="50%">
+Controller
+<img src="https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/image1.png.png" width="100%">
+</td>
+<td width="50%">
+Service & Structure
+<img src="https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/image2.png.png" width="100%">
+</td>
+</tr>
+</table>
