@@ -8,14 +8,14 @@
 
 ### Controller
 
-![Controller](image1.png)
+![Controller](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/image1.png.png)
 
 </td>
 <td width="50%">
 
 ### Service & Structure
 
-![Service](image2.png)
+![Service](https://github.com/stevymonkam/angular-springboot-with-docker/blob/main/img/image2.png.png)
 
 </td>
 </tr>
